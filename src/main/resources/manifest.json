@@ -1,18 +1,27 @@
 {
-  "Group": "${plugin_group}",
-  "Name": "${plugin_name}",
-  "Version": "${plugin_version}",
-  "Description": "${plugin_description}",
-  "Authors": [
-    {
-      "Name": "${plugin_author}"
+    "Group": "FrozenBlock",
+    "Name": "Configurable Everything",
+    "Version": "0.1.0",
+    "Description": "Adds configurability to Hytale",
+    "Authors": [
+        {
+            "Name": "Ethan Stokes"
+        }
+    ],
+    "Website": "https://frozenblock.net",
+    "ServerVersion": "*",
+    "Dependencies": {
+        "Kotale:Kotale": "*"
+    },
+    "OptionalDependencies": {
+        
+    },
+    "DisabledByDefault": false,
+    "IncludesAssetPack": true,
+    "Main": "net.frozenblock.configurableeverything.CEPlugin",
+    "Hyxin": {
+        "Configs": [
+            "configurable_everything.mixins.json"
+        ]
     }
-  ],
-  "Website": "${plugin_website}",
-  "ServerVersion": "${server_version}",
-  "Dependencies": {},
-  "OptionalDependencies": {},
-  "DisabledByDefault": false,
-  "IncludesAssetPack": true,
-  "Main": "${plugin_main_entrypoint}"
 }

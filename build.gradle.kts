@@ -1,9 +1,15 @@
+import fr.smolder.hytale.gradle.PatchLine
+
 plugins {
+    java
+    idea
     `maven-publish`
-    id("hytale-mod") version "0.+"
+    id("fr.smolder.hytale.dev") version "0.0.3"
+    id("fr.smolder.javadoc.migration") version "0.0.1"
+    kotlin("jvm") version "2.3.0"
 }
 
-group = "com.example"
+group = "net.frozenblock"
 version = "0.1.0"
 val javaVersion = 25
 
@@ -12,11 +18,26 @@ repositories {
     maven("https://maven.hytale-modding.info/releases") {
         name = "HytaleModdingReleases"
     }
+    maven("https://repo.averix.tech/repository/maven-public/") {
+        name = "Averix"
+    }
+    exclusiveContent {
+        forRepository {
+            maven("https://cursemaven.com")
+        }
+        filter {
+            includeGroup("curse.maven")
+        }
+    }
 }
 
 dependencies {
     compileOnly(libs.jetbrains.annotations)
     compileOnly(libs.jspecify)
+
+    implementation("dev.helight.kotale:kotlin:0.0.2")
+    implementation("dev.helight.kotale:kotale:0.0.2")
+    compileOnly("curse.maven:hyxin-1405491:7399430")
 
     // this mod is optional, but is included so you can preview your mod icon
     // in the in-game mod list via the /modlist command
@@ -31,12 +52,16 @@ java {
     withSourcesJar()
 }
 
-tasks.named<ProcessResources>("processResources") {
+tasks.named<Jar>("sourcesJar") {
+    dependsOn(tasks.updatePluginManifest)
+}
+
+tasks.processResources {
     var replaceProperties = mapOf(
         "plugin_group" to findProperty("plugin_group"),
         "plugin_maven_group" to project.group,
         "plugin_name" to project.name,
-        "plugin_version" to project.version,
+        "plugin_version" to version,
         "server_version" to findProperty("server_version"),
 
         "plugin_description" to findProperty("plugin_description"),
@@ -46,15 +71,36 @@ tasks.named<ProcessResources>("processResources") {
         "plugin_author" to findProperty("plugin_author")
     )
 
+    inputs.properties(replaceProperties)
+
     filesMatching("manifest.json") {
         expand(replaceProperties)
     }
-
-    inputs.properties(replaceProperties)
 }
 
 hytale {
+    //jvmArgs.add("-Dhyxin-target=${sourceSets.main.get().output.joinToString(",")}")
+    autoUpdateManifest.set(true)
+    earlyPlugin.set(true)
 
+    patchLine.set(PatchLine.PRE_RELEASE)
+}
+
+javadocMigration {
+    // Fetch documentation from the published JSON
+    docsUrl.set("https://raw.githubusercontent.com/GhostRider584/hytale-docs/refs/heads/master/javadocs-export.json")
+
+    // Or use a local file
+    // docsFile.set(file("path/to/hytale-docs.json"))
+
+    // The server JAR to inject documentation into
+    newJar.set(hytale.serverJar)
+
+    // Output directory for documented sources
+    outputDir.set(layout.buildDirectory.dir("documented-sources"))
+
+    // Filter which packages to document
+    decompileFilter.set(listOf("com/hypixel/**"))
 }
 
 tasks.withType<Jar> {
