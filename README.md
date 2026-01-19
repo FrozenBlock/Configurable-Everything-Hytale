@@ -1,3 +1,3 @@
-# Hytale Plugin Template
+# Configurable Everything: Hytale
 
-A template for Hytale java plugins
+Configurable Everything for Hytale

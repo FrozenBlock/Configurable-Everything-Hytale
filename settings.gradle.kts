@@ -15,11 +15,11 @@ plugins {
 
 rootProject.name = "Configurable Everything HY"
 
-localRepository("Hyxin", "curse.maven:hyxin-1405491", kotlin = true, enabled = true)
+localRepository("Hyxin", "curse.maven:hyxin-1405491", enabled = true)
 
 includeBuild("../hytale-gradle-plugin") {}
 
-fun localRepository(repo: String, dependencySub: String, kotlin: Boolean, enabled: Boolean) {
+fun localRepository(repo: String, dependencySub: String, enabled: Boolean) {
     if (!enabled) return
     println("Attempting to include local repo $repo")
 
