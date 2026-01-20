@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.universe.world.worldgen.provider.IWorldGen
 import com.hypixel.hytale.server.core.util.Config;
 import org.jspecify.annotations.NonNull;
 
+@SuppressWarnings("unused")
 public class CEPlugin extends JavaPlugin {
 
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
