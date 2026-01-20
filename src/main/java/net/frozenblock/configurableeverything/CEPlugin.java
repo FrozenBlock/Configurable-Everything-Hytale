@@ -26,7 +26,10 @@ public class CEPlugin extends JavaPlugin {
     @Override
     protected void setup() {
         this.getCommandRegistry().registerCommand(new PoopCommand());
+    }
 
+    @Override
+    protected void start() {
         if (this.config.load().join().worldGenV2) {
             worldGenV2();
         } else {
