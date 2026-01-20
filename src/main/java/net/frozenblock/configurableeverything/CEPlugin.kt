@@ -34,6 +34,8 @@ class CEPlugin(init: JavaPluginInit) : JavaPlugin(init) {
         // TODO: Add config
         if (config.load().join().worldGenV2)
             worldGenV2()
+        else
+            LOGGER.atInfo().log("Sticking to World Gen V1")
 
         config.save().join()
     }
@@ -41,14 +43,11 @@ class CEPlugin(init: JavaPluginInit) : JavaPlugin(init) {
     private fun worldGenV2() {
         LOGGER.atInfo().log("Enabling World Gen V2")
 
-        val V1 = IWorldGenProvider.CODEC.getCodecFor("Hytale")
         val V2 = IWorldGenProvider.CODEC.getCodecFor("HytaleGenerator")
 
-        IWorldGenProvider.CODEC.remove(HytaleWorldGenProvider::class.java)
         IWorldGenProvider.CODEC.remove(HandleProvider::class.java)
 
-        IWorldGenProvider.CODEC.register(Priority.DEFAULT.before(1), "HytaleGenerator", HandleProvider::class.java, V2)
-        IWorldGenProvider.CODEC.register("Hytale", HytaleWorldGenProvider::class.java, V1)
+        IWorldGenProvider.CODEC.register(Priority.DEFAULT.before(2), "HytaleGenerator", HandleProvider::class.java, V2)
     }
 }
 
