@@ -6,7 +6,6 @@ plugins {
     `maven-publish`
     id("fr.smolder.hytale.dev") version "0.0.3"
     id("fr.smolder.javadoc.migration") version "0.0.1"
-    kotlin("jvm") version "2.3.0"
 }
 
 group = "net.frozenblock"
@@ -35,8 +34,6 @@ dependencies {
     compileOnly(libs.jetbrains.annotations)
     compileOnly(libs.jspecify)
 
-    implementation("dev.helight.kotale:kotlin:0.0.2")
-    implementation("dev.helight.kotale:kotale:0.0.2")
     compileOnly("curse.maven:hyxin-1405491:7399430")
 
     // this mod is optional, but is included so you can preview your mod icon
