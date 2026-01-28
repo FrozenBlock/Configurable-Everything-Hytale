@@ -62,9 +62,6 @@ abstract class CEScript {
 
     val CE_PLUGIN: CEPlugin = CEPlugin.INSTANCE
 
-    /**
-     * @since 1.1
-     */
     inline fun runLate(priority: Int, noinline `fun`: () -> Unit) {
         POST_RUN_FUNS!![priority] = `fun`
     }
