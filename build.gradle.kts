@@ -1,11 +1,13 @@
-import fr.smolder.hytale.gradle.PatchLine
+import fr.smolder.hytale.gradle.Patchline
+
 
 plugins {
-    java
+    `java-library`
     idea
     `maven-publish`
-    id("fr.smolder.hytale.dev") version "0.0.3"
+    id("fr.smolder.hytale.dev") version "0.1.0"
     id("fr.smolder.javadoc.migration") version "0.0.1"
+    kotlin("jvm") version "2.3.0"
 }
 
 group = "net.frozenblock"
@@ -13,7 +15,6 @@ version = "0.0.1"
 val javaVersion = 25
 
 repositories {
-    mavenCentral()
     maven("https://maven.hytale-modding.info/releases") {
         name = "HytaleModdingReleases"
     }
@@ -28,6 +29,8 @@ repositories {
             includeGroup("curse.maven")
         }
     }
+    maven("https://maven.eufonia.studio/public")
+    mavenCentral()
 }
 
 dependencies {
@@ -35,6 +38,15 @@ dependencies {
     compileOnly(libs.jspecify)
 
     compileOnly("curse.maven:hyxin-1405491:7399430")
+    api("curse.maven:hykotlin-1429929:7465547")
+
+    api(kotlin("scripting-common"))
+    api(kotlin("scripting-jvm"))
+    api(kotlin("scripting-jsr223"))
+    api(kotlin("scripting-jvm-host"))
+    api(kotlin("scripting-compiler-embeddable"))
+    api(kotlin("scripting-dependencies"))
+    api(kotlin("scripting-dependencies-maven"))
 
     // this mod is optional, but is included so you can preview your mod icon
     // in the in-game mod list via the /modlist command
@@ -78,9 +90,9 @@ tasks.processResources {
 hytale {
     //jvmArgs.add("-Dhyxin-target=${sourceSets.main.get().output.joinToString(",")}")
     autoUpdateManifest.set(true)
-    earlyPlugin.set(true)
+    acceptEarlyPlugins.set(true)
 
-    patchLine.set(PatchLine.PRE_RELEASE)
+    patchLine.set(Patchline.PRE_RELEASE)
 }
 
 javadocMigration {
