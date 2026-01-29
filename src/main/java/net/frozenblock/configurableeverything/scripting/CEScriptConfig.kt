@@ -49,6 +49,10 @@ abstract class CEScript {
     companion object {
         @PublishedApi
         internal var POST_RUN_FUNS: MutableMap<Int, () -> Unit>? = mutableMapOf()
+
+        @PublishedApi
+        @JvmField
+        internal var ON_START: MutableList<() -> Unit>? = mutableListOf()
     }
 
     /**
@@ -64,6 +68,10 @@ abstract class CEScript {
 
     inline fun runLate(priority: Int, noinline `fun`: () -> Unit) {
         POST_RUN_FUNS!![priority] = `fun`
+    }
+
+    inline fun onStart(noinline `fun`: () -> Unit) {
+        ON_START!! += `fun`
     }
 
     val classLoader: PluginClassLoader = CE_PLUGIN.classLoader

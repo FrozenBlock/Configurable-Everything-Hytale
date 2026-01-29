@@ -57,6 +57,7 @@ internal object ScriptingUtil {
                 value.invoke() // make sure to not use coroutines here
             }
         }
+        CEScript.POST_RUN_FUNS = null
     }
 
     private fun compileScripts(path: Path) {
