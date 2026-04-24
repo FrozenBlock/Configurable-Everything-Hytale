@@ -1,3 +1,5 @@
+import dev.hygradle.dsl.hytale.Patchline
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -5,17 +7,27 @@ pluginManagement {
         maven("https://maven.hytale-modding.info/releases") {
             name = "HytaleModdingReleases"
         }
+        maven("https://maven.hygradle.dev")
         maven("https://repo.smolder.fr/public/")
     }
 }
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+    id("dev.hygradle.settings") version("0.0.12")
 }
 
 rootProject.name = "Configurable Everything HY"
 
-localRepository("Hyxin", "curse.maven:hyxin-1405491", enabled = true)
+hygradle {
+    hytale {
+        patchline = Patchline.PRERELEASE
+        version = "2026.04.23-3f4475f43"
+        decompile = true
+    }
+}
+
+localRepository("Hyxin", "curse.maven:hyxin-1405491", enabled = false)
 
 includeBuild("../hytale-gradle-plugin") {}
 

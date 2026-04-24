@@ -1,13 +1,11 @@
-import fr.smolder.hytale.gradle.Patchline
-
+import dev.hygradle.dsl.plugin.LatePlugin
+import dev.hygradle.dsl.run.Run
 
 plugins {
     `java-library`
     idea
     `maven-publish`
-    id("fr.smolder.hytale.dev") version "0.1.0"
-    id("fr.smolder.javadoc.migration") version "0.0.1"
-    kotlin("jvm") version "2.3.0"
+    id("dev.hygradle")
 }
 
 group = "net.frozenblock"
@@ -18,6 +16,7 @@ repositories {
     maven("https://maven.hytale-modding.info/releases") {
         name = "HytaleModdingReleases"
     }
+    maven("https://maven.hytale.com/release")
     maven("https://repo.averix.tech/repository/maven-public/") {
         name = "Averix"
     }
@@ -37,17 +36,6 @@ dependencies {
     compileOnly(libs.jetbrains.annotations)
     compileOnly(libs.jspecify)
 
-    compileOnly("curse.maven:hyxin-1405491:7399430")
-    api("curse.maven:hykotlin-1429929:7465547")
-
-    api(kotlin("scripting-common"))
-    api(kotlin("scripting-jvm"))
-    api(kotlin("scripting-jsr223"))
-    api(kotlin("scripting-jvm-host"))
-    api(kotlin("scripting-compiler-embeddable"))
-    api(kotlin("scripting-dependencies"))
-    api(kotlin("scripting-dependencies-maven"))
-
     // this mod is optional, but is included so you can preview your mod icon
     // in the in-game mod list via the /modlist command
     runtimeOnly(libs.bettermodlist)
@@ -62,66 +50,35 @@ java {
 }
 
 tasks.named<Jar>("sourcesJar") {
-    dependsOn(tasks.updatePluginManifest)
+    //dependsOn(tasks.updatePluginManifest)
 }
 
-tasks.processResources {
-    var replaceProperties = mapOf(
-        "plugin_group" to findProperty("plugin_group"),
-        "plugin_maven_group" to project.group,
-        "plugin_name" to project.name,
-        "plugin_version" to version,
-        "server_version" to findProperty("server_version"),
+hygradle {
+    plugins {
+        register<LatePlugin>("configurable_everything") {
+            manifest {
+                mainClass = "net.frozenblock.configurableeverything.CEPlugin"
+                name = "Configurable Everything"
+                group = "FrozenBlock"
+                version = project.version.toString()
+                description = "Adds configurability to Hytale"
+                includesAssetPack = true
 
-        "plugin_description" to findProperty("plugin_description"),
-        "plugin_website" to findProperty("plugin_website"),
+                author { name = "Ethan Stokes" }
 
-        "plugin_main_entrypoint" to findProperty("plugin_main_entrypoint"),
-        "plugin_author" to findProperty("plugin_author")
-    )
+                dependency { name = "NPC"; group = "Hytale"; version = "*" }
+            }
+        }
+    }
 
-    inputs.properties(replaceProperties)
-
-    filesMatching("manifest.json") {
-        expand(replaceProperties)
+    runs {
+        register<Run>("dev")
     }
 }
 
-hytale {
-    //jvmArgs.add("-Dhyxin-target=${sourceSets.main.get().output.joinToString(",")}")
-    autoUpdateManifest.set(true)
-    acceptEarlyPlugins.set(true)
-
-    patchLine.set(Patchline.PRE_RELEASE)
-}
-
-javadocMigration {
-    // Fetch documentation from the published JSON
-    docsUrl.set("https://raw.githubusercontent.com/GhostRider584/hytale-docs/refs/heads/master/javadocs-export.json")
-
-    // Or use a local file
-    // docsFile.set(file("path/to/hytale-docs.json"))
-
-    // The server JAR to inject documentation into
-    newJar.set(hytale.serverJar)
-
-    // Output directory for documented sources
-    outputDir.set(layout.buildDirectory.dir("documented-sources"))
-
-    // Filter which packages to document
-    decompileFilter.set(listOf("com/hypixel/**"))
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Specification-Title"] = rootProject.name
-        attributes["Specification-Version"] = version
-        attributes["Implementation-Title"] = project.name
-        attributes["Implementation-Version"] =
-            providers.environmentVariable("COMMIT_SHA_SHORT")
-                .map { "${version}-${it}" }
-                .getOrElse(version.toString())
-    }
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+    options.compilerArgs.addAll(listOf("-deprecation", "-Xlint:all"))
 }
 
 publishing {

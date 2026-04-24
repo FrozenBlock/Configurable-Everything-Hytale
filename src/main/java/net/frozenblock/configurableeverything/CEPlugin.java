@@ -11,9 +11,6 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.worldgen.provider.IWorldGenProvider;
 import com.hypixel.hytale.server.core.util.Config;
-import kotlin.jvm.functions.Function0;
-import net.frozenblock.configurableeverything.scripting.util.CEScript;
-import net.frozenblock.configurableeverything.scripting.util.ScriptingUtil;
 import org.jspecify.annotations.NonNull;
 
 import java.io.File;
@@ -43,14 +40,11 @@ public class CEPlugin extends JavaPlugin {
 
     @Override
     protected void setup() {
-        ScriptingUtil.INSTANCE.runScripts();
         this.getCommandRegistry().registerCommand(new PoopCommand());
     }
 
     @Override
     protected void start() {
-        CEScript.ON_START.forEach(Function0::invoke);
-        CEScript.ON_START = null;
         //worldGenV2();
     }
 
