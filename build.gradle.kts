@@ -58,7 +58,7 @@ hygradle {
         register<LatePlugin>("configurable_everything") {
             manifest {
                 mainClass = "net.frozenblock.configurableeverything.CEPlugin"
-                name = "Configurable Everything"
+                name = "ConfigurableEverything"
                 group = "FrozenBlock"
                 version = project.version.toString()
                 description = "Adds configurability to Hytale"

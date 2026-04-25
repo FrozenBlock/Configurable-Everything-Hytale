@@ -29,7 +29,7 @@ hygradle {
 
 localRepository("Hyxin", "curse.maven:hyxin-1405491", enabled = false)
 
-includeBuild("../hytale-gradle-plugin") {}
+//includeBuild("../hytale-gradle-plugin") {}
 
 fun localRepository(repo: String, dependencySub: String, enabled: Boolean) {
     if (!enabled) return

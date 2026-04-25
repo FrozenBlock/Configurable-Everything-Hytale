@@ -32,7 +32,8 @@ public class PoopCommand extends AbstractCommand {
             }
         };
         this.argument = this.withOptionalArg("message", "Message to print", arg);
-        this.setPermissionGroup(GameMode.Adventure);
+
+        this.setPermissionGroups("hytale:Adventurer");
     }
 
     @Override
