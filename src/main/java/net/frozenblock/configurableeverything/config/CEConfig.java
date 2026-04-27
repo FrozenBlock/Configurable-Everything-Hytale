@@ -137,16 +137,13 @@ public class CEConfig {
                      // Modify crafting recipes: add/remove/edit ingredients
                      "RecipeModifications": [
                        {
-                         "RecipeId": "Hytale:ExampleRecipe",
+                         // EXAMPLE, DEFAULT IS NO MODIFICATIONS
+                         "RecipeId": "Tool_Repair_Kit_Iron_Recipe_Generated_0",
                          "Ingredients": [
                            {
-                             "ItemId": "Hytale:IronIngot",
-                             "Quantity": 5,
+                             "ItemId": "Ingredient_Bar_Iron",
+                             "Quantity": 1,
                              "Remove": false
-                           },
-                           {
-                             "ItemId": "Hytale:Wood",
-                             "Remove": true
                            }
                          ]
                        }
