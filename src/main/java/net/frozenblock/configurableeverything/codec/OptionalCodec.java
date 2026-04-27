@@ -22,6 +22,14 @@ import java.util.Optional;
  * written as their normal value.
  */
 public class OptionalCodec<T> implements Codec<Optional<T>> {
+    public static final OptionalCodec<Boolean> BOOLEAN = new OptionalCodec<>(Codec.BOOLEAN);
+    public static final OptionalCodec<Byte> BYTE = new OptionalCodec<>(Codec.BYTE);
+    public static final OptionalCodec<Short> SHORT = new OptionalCodec<>(Codec.SHORT);
+    public static final OptionalCodec<Integer> INTEGER = new OptionalCodec<>(Codec.INTEGER);
+    public static final OptionalCodec<Long> LONG = new OptionalCodec<>(Codec.LONG);
+    public static final OptionalCodec<Float> FLOAT = new OptionalCodec<>(Codec.FLOAT);
+    public static final OptionalCodec<Double> DOUBLE = new OptionalCodec<>(Codec.DOUBLE);
+    public static final OptionalCodec<String> STRING = new OptionalCodec<>(Codec.STRING);
 
     private final Codec<T> delegate;
 
