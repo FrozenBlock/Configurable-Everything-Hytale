@@ -127,14 +127,31 @@ public class CEConfig {
                     "MaxRespawnPointsPerPlayer": %s
                   },
 
-                  "Crafting": {
-                    // Horizontal block radius a crafting bench searches for chest materials (0–14)
-                    "ChestHorizontalSearchRadius": %s,
-                    // Vertical block radius a crafting bench searches for chest materials (0–14)
-                    "ChestVerticalSearchRadius":   %s,
-                    // Maximum number of chests a crafting bench will draw materials from (0–200)
-                    "ChestLimit": %s
-                  },
+                   "Crafting": {
+                     // Horizontal block radius a crafting bench searches for chest materials (0–14)
+                     "ChestHorizontalSearchRadius": %s,
+                     // Vertical block radius a crafting bench searches for chest materials (0–14)
+                     "ChestVerticalSearchRadius":   %s,
+                     // Maximum number of chests a crafting bench will draw materials from (0–200)
+                     "ChestLimit": %s,
+                     // Modify crafting recipes: add/remove/edit ingredients
+                     "RecipeModifications": [
+                       {
+                         "RecipeId": "Hytale:ExampleRecipe",
+                         "Ingredients": [
+                           {
+                             "ItemId": "Hytale:IronIngot",
+                             "Quantity": 5,
+                             "Remove": false
+                           },
+                           {
+                             "ItemId": "Hytale:Wood",
+                             "Remove": true
+                           }
+                         ]
+                       }
+                     ]
+                   },
 
                   "Combat": {
                     // Show health bars above entities (clients can still override in their own settings)
